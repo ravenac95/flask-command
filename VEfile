@@ -1,0 +1,11 @@
+requirements:
+  - flask
+  - gunicorn
+
+---
+profile: development
+
+requirements:
+  - requests
+  - mock
+  - nose

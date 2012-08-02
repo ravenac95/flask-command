@@ -1,0 +1,7 @@
+flask (Flask==0.9)
+  werkzeug (Werkzeug==0.8.3)
+  jinja2 (Jinja2==2.6)
+gunicorn (gunicorn==0.14.6)
+requests (requests==0.13.5)
+mock (mock==1.0b1)
+nose (nose==1.1.2)
