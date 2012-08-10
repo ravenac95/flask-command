@@ -32,7 +32,11 @@ class FlaskApplication(Application):
         sys.path.insert(0, os.getcwd())
 
     def load(self):
-        return self._app_factory(self.flask_config_path)
+        config_path = self.flask_config_path
+        config_absolute_path = config_path
+        if config_path:
+            config_absolute_path = os.path.abspath(config_path)
+        return self._app_factory(config_absolute_path)
 
 
 class FlaskCommand(object):

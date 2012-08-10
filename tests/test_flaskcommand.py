@@ -13,7 +13,7 @@ class TestUsingSimpleApp(object):
         app_path = fixtures_path('simple_app.py')
         self.app = subprocess.Popen(['python', app_path, '-b',
             '127.0.0.1:14444'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        time.sleep(2)
+        time.sleep(5)
 
     def disconnect(self):
         self.app.terminate()
@@ -48,7 +48,7 @@ class TestUsingAppWithFactory(object):
         self.app = subprocess.Popen(['python', app_path, '-b',
             '127.0.0.1:14444', self.config_path],
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        time.sleep(2)
+        time.sleep(5)
 
     def disconnect(self):
         self.app.terminate()
