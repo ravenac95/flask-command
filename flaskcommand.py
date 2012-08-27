@@ -8,12 +8,6 @@ class FlaskApplication(Application):
     def from_factory(cls, app_factory, proc_name=None):
         return cls(app_factory, proc_name=proc_name)
 
-    @classmethod
-    def from_app(cls, app, proc_name=None):
-        # Create a basic app factory
-        app_factory = lambda config: app
-        return cls(app_factory, proc_name=proc_name)
-
     def __init__(self, app_factory, proc_name=None):
         usage = '%prog [OPTIONS] [FLASK_CONFIG_PATH]'
 
@@ -40,11 +34,12 @@ class FlaskApplication(Application):
 
 
 class FlaskCommand(object):
-    def __init__(self, gunicorn_app):
-        self._gunicorn_app = gunicorn_app
+    def __init__(self, app_factory):
+        self._app_factory = app_factory
 
     def __call__(self):
-        return self._gunicorn_app.run()
+        gunicorn_app = FlaskApplication.from_factory(self._app_factory)
+        return gunicorn_app.run()
 
 
 def flask_command(app=None, factory=None, proc_name=None):
@@ -55,7 +50,5 @@ def flask_command(app=None, factory=None, proc_name=None):
     if not bool(app) != bool(factory):
         raise TypeError('app or factory argument required, but not both')
     if app:
-        gunicorn_app = FlaskApplication.from_app(app)
-    if factory:
-        gunicorn_app = FlaskApplication.from_factory(factory)
-    return FlaskCommand(gunicorn_app)
+        factory = lambda config: app
+    return FlaskCommand(factory)
